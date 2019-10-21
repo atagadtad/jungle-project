@@ -22,9 +22,14 @@ RSpec.describe User, type: :model do
 
 
     it 'is is invalid when password does not match with password_confirmation' do
-      user.password = 'aaronjohn'
-      user.password_confirmation = 'aaron'
-      expect(user).to_not be_valid
+      user4 = User.create({
+        name: 'Aragorn', 
+        email: 'aragorn@john.com',
+        password: 'the return',
+        password_confirmation: 'of the king'
+      })
+      expect(user4.errors.full_messages).to include('Password confirmation doesn\'t match Password')
+      expect(user4).to_not be_valid
     end
 
 
@@ -40,12 +45,37 @@ RSpec.describe User, type: :model do
     end
 
     it 'is not valid without a name' do
-
+      user5 = User.create({
+        name: nil, 
+        email: 'frodo@john.com',
+        password: 'stupid hobbit',
+        password_confirmation: 'stupid hobbit'
+      })
+      expect(user5.errors.full_messages).to include('Name can\'t be blank')
+      expect(user5).to_not be_valid
     end
 
-    it 'is not valid without an email'
+    it 'is not valid without an email' do
+      user6 = User.create({
+        name: 'Sam', 
+        email: nil,
+        password: 'stupid fat hobbit',
+        password_confirmation: 'stupid fat hobbit'
+      })
+      expect(user6.errors.full_messages).to include('Email can\'t be blank')
+      expect(user6).to_not be_valid
+    end
 
-    it 'is valid when password meets minimum length required'
+    it 'is valid when password meets minimum length required' do
+      user7 = User.create({
+        name: 'Gandalf', 
+        email: 'white@wizard.me',
+        password: 'me',
+        password_confirmation: 'me'
+      })
+      expect(user7.errors.full_messages).to include('Password is too short (minimum is 10 characters)')
+      expect(user7).to_not be_valid
+    end
 
 
   end
