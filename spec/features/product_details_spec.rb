@@ -17,7 +17,7 @@ RSpec.feature "ProductDetails", type: :feature, js: true do
     end
   end
 
-  scenario "They see all products" do
+  scenario "They click on and navigate to product page" do
     product = @category.products
     # ACT
     visit root_path
