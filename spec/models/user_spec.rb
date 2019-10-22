@@ -77,6 +77,20 @@ RSpec.describe User, type: :model do
       expect(user7).to_not be_valid
     end
 
+  end
+
+  describe '.autenticate_with_credentials' do
+    it 'ignores spaces around email' do
+      user8 = User.create({
+        name: 'Boromir', 
+        email: '   sean@bean.dies',
+        password: 'me',
+        password_confirmation: 'me'
+      })
+      expect(user8.autenticate_with_credentials(user8.email, user8.password)).to be_true
+    end
+
 
   end
+
 end
